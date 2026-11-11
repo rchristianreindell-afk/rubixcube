@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#5b5bf0"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="CubeSolver">
+<title>Reindel</title>
+<style>
+:root{--bg:#f5f6fb;--fg:#14161f;--mut:#667089;--card:#fff;--line:#dfe3ee;--acc:#5b5bf0;--ok:#15803d;--bad:#dc2626;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d0f16;--fg:#eef0f8;--mut:#9aa2b8;--card:#171a25;--line:#2a2f42;--acc:#8b8bff;--ok:#4ade80;--bad:#f87171}}
+:root[data-theme="dark"]{--bg:#0d0f16;--fg:#eef0f8;--mut:#9aa2b8;--card:#171a25;--line:#2a2f42;--acc:#8b8bff;--ok:#4ade80;--bad:#f87171}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+nav{display:flex;gap:6px;align-items:center;padding:12px 16px;flex-wrap:wrap;max-width:1100px;margin:auto}
+nav b{margin-right:auto;font-size:1.1rem}
+nav button{background:none;border:0;color:var(--mut);padding:6px 10px;border-radius:99px;font:inherit;font-size:.9rem;cursor:pointer}
+nav button.on{background:var(--acc);color:#fff}
+main{max-width:1100px;margin:auto;padding:8px 16px 40px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px}
+.two{display:grid;grid-template-columns:1.1fr 1fr;gap:16px}
+@media(max-width:800px){.two{grid-template-columns:1fr}}
+h1{font-size:clamp(2rem,6vw,3.4rem);line-height:1.05;margin:.2em 0}
+p{color:var(--mut)}
+button.btn,.btns button{background:var(--card);color:var(--fg);border:1px solid var(--line);border-radius:12px;padding:10px 14px;font:inherit;cursor:pointer}
+button.p{background:var(--acc);color:#fff;border-color:var(--acc)}
+button:disabled{opacity:.4;cursor:not-allowed}
+.btns{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.hero{padding:32px 0;text-align:left}
+.feat{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:24px}
+.vw{position:relative;aspect-ratio:1;border-radius:14px;overflow:hidden;background:#000}
+.vw video,.vw canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+#chips button{margin:2px;border:1px solid var(--line);background:var(--card);color:var(--fg);border-radius:99px;padding:5px 12px;cursor:pointer}
+#chips button.on{background:var(--acc);color:#fff}
+.net{display:grid;grid-template-columns:repeat(12,1fr);gap:2px;max-width:520px;margin:12px auto}
+.net i{aspect-ratio:1;border-radius:4px;display:grid;place-items:center;font:700 .65rem system-ui;color:#0007;cursor:pointer;border:1px solid #0002}
+#pal button{width:40px;height:40px;border-radius:50%;border:3px solid transparent;cursor:pointer;margin-right:6px}
+#pal button.on{border-color:var(--acc);outline:2px solid var(--fg)}
+.ok{color:var(--ok)}.bad{color:var(--bad)}
+#gl{width:100%;aspect-ratio:1;display:block;touch-action:none;cursor:grab;border-radius:14px}
+#badge{font-size:4rem;font-weight:800;text-align:center;line-height:1;color:var(--acc)}
+.bar{height:8px;background:var(--line);border-radius:9px;overflow:hidden}.bar div{height:100%;background:var(--acc);width:0;transition:width .3s}
+#list{display:flex;flex-wrap:wrap;gap:4px;margin:8px 0}
+#list b{padding:2px 8px;border-radius:8px;border:1px solid var(--line);font-size:.85rem;color:var(--mut)}
+#list b.d{background:var(--line)}#list b.n{border-color:var(--acc);color:var(--acc)}
+#done{padding:12px;border-radius:12px;background:var(--ok);color:#fff;font-weight:700;text-align:center}
+#busy{position:absolute;inset:0;display:grid;place-items:center;background:#000a;color:#fff;text-align:center;padding:20px;border-radius:14px}
+.rel{position:relative}
+body{overscroll-behavior:none;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
+@media(max-width:800px){nav{position:fixed;bottom:0;left:0;right:0;z-index:20;justify-content:space-around;background:var(--card);border-top:1px solid var(--line);padding:6px 8px calc(6px + env(safe-area-inset-bottom,0px))}nav b{display:none}nav button{flex:1;padding:10px 4px;border-radius:12px}main{padding-bottom:90px}}
+</style></head><body>
+<nav><b>Reindel_Robinol_ML</b><button data-v="home">Home</button><button data-v="scan">Scanner</button><button data-v="prev">Preview</button><button data-v="solve">Solver</button></nav>
+<main>
+<section id="home" class="hero">
+<h1>Made by:<br>Christian Reindel L. Robinol</h1>
+<p style="max-width:560px">Empowerment Technology <br>Laurence P. Sales</p>
+
+<div class="feat"></div>
+</section>
+
+<section id="scan" hidden><div class="two">
+<div class="card"><div class="vw"><video id="vid" playsinline muted autoplay></video><canvas id="ov"></canvas></div><p id="camerr" hidden class="bad">Camera unavailable or blocked. Allow camera access (or open this page in its own tab), or use manual entry from Home.</p></div>
+<div class="card"><div id="chips"></div><p id="ins"></p>
+<div class="btns"><button class="btn p" id="cap" onclick="cap()"> Capture face</button><button class="btn" onclick="go('home')">Cancel</button></div></div>
+</div></section>
+
+<section id="prev" hidden><div class="two">
+<div class="card"><div id="net" class="net"></div></div>
+<div class="card"><b>Review &amp; correct</b><div id="pal"></div>
+<p id="msg"></p><div id="rs" class="btns"></div><div class="btns"><button class="btn p" id="go" onclick="solveIt()">Solve cube</button></div></div>
+</div></section>
+
+<section id="solve" hidden><div class="two">
+<div class="card rel"><canvas id="gl"></canvas><div id="busy" hidden></div><p style="margin:8px 0 0;text-align:center">Drag to rotate · keep white on top, green facing you</p></div>
+<div class="card"><div id="badge">–</div><p id="desc" style="text-align:center"></p><div class="bar"><div id="prog"></div></div><p id="cnt" style="margin:6px 0"></p>
+<div class="btns"><button id="b0" onclick="restart()">⏮ Restart</button><button id="b1" onclick="step(-1)">◀ Previous</button><button id="bp" onclick="play()">▶ Play</button><button id="b2" class="p" onclick="step(1)">Next ▶</button></div>
+<div id="done" hidden> Solved! All six faces are complete.</div><div id="list"></div><div id="net2" class="net"></div></div>
+</div></section>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/cubejs@1.3.2/lib/cube.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/cubejs@1.3.2/lib/solve.js"></script>
+<script>
+const $=i=>document.getElementById(i),U='URFDLB',ORDER='FRBLUD';
+const HEX={U:'#f4f4f4',R:'#d92b2b',F:'#72d69a',D:'#ffd400',L:'#ffb36b',B:'#05ABCD'};
+const NM={U:'white',R:'red',F:'green',D:'yellow',L:'orange',B:'blue'};
+const FN={U:'White (top)',R:'Red',F:'Green',D:'Yellow (bottom)',L:'Orange',B:'Blue'};
+const TXT={F:'Hold white on top, green facing you.',R:'Hold white on top, red facing you.',B:'Hold white on top, blue facing you.',L:'Hold white on top, orange facing you.',U:'Hold blue on top, white facing you.',D:'Hold green on top, yellow facing you.'};
+const CF=[[8,9,20],[6,18,38],[0,36,47],[2,45,11],[29,26,15],[27,44,24],[33,53,42],[35,17,51]],CN=['URF','UFL','ULB','UBR','DFR','DLF','DBL','DRB'];
+const EF=[[5,10],[7,19],[3,37],[1,46],[32,16],[28,25],[30,43],[34,52],[23,12],[21,41],[50,39],[48,14]],EN=['UR','UF','UL','UB','DR','DF','DL','DB','FR','FL','BL','BR'];
+const AX={U:['y',1],R:['x',1],F:['z',1],D:['y',-1],L:['x',-1],B:['z',-1]};
+const OFF={U:[0,3],L:[3,0],F:[3,3],R:[3,6],B:[3,9],D:[6,3]};
+const dm=m=>m.replace("'",'’'),inv=m=>m[1]=="'"?m[0]:m[1]=='2'?m:m+"'";
+let k=0,cur=null,S={},G=null,stream,tm,sel='U',mv=[],idx=0,bz=0,pl=0,built=0;
+
+/* ---------- colour science / ML ---------- */
+function lab(r,g,b){[r,g,b]=[r,g,b].map(v=>{v/=255;return v>.04045?((v+.055)/1.055)**2.4:v/12.92});
+ let x=(r*.4124+g*.3576+b*.1805)/.95047,y=r*.2126+g*.7152+b*.0722,z=(r*.0193+g*.1192+b*.9505)/1.089;
+ [x,y,z]=[x,y,z].map(v=>v>.008856?Math.cbrt(v):7.787*v+16/116);return[116*y-16,500*(x-y),200*(y-z)]}
+const dist=(p,q)=>(.5*(p[0]-q[0]))**2+(p[1]-q[1])**2+(p[2]-q[2])**2;
+const PL=U.split('').map(f=>{const h=HEX[f];return lab(parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5),16))});
+const cls=l=>U[PL.reduce((b,p,i)=>dist(l,p)<dist(l,PL[b])?i:b,0)];
+// Self-calibrating, capacity-constrained k-means: the 6 centre stickers seed the clusters, every colour owns exactly 9 stickers.
+function refine(){const all=[];U.split('').forEach(f=>S[f].forEach((l,i)=>all.push({f,i,l})));
+ let cen=U.split('').map(f=>S[f][4]),as;
+ for(let it=0;it<8;it++){const ds=[];all.forEach((p,j)=>cen.forEach((c,q)=>ds.push([dist(p.l,c),j,q])));ds.sort((a,b)=>a[0]-b[0]);
+  as=Array(54).fill(-1);const n=Array(6).fill(0);
+  all.forEach((p,j)=>{if(p.i==4){as[j]=U.indexOf(p.f);n[as[j]]++}});
+  for(const[,j,q]of ds)if(as[j]<0&&n[q]<9){as[j]=q;n[q]++}
+  cen=cen.map((c,q)=>{const m=all.filter((p,j)=>as[j]==q);return[0,1,2].map(d=>m.reduce((a,p)=>a+p.l[d],0)/m.length)})}
+ G=as.map(q=>U[q])}
+
+/* ---------- validation ---------- */
+function validate(s){const c=[...s];
+ for(const f of U){const n=c.filter(x=>x==f).length;if(n!=9)return`The ${NM[f]} colour appears ${n} times; each colour must appear exactly 9 times.`}
+ const cp=[],co=[],ep=[],eo=[];
+ for(const t of CF){const a=t.map(i=>c[i]),o=a.findIndex(x=>x=='U'||x=='D');if(o<0)return'A corner has no white or yellow sticker.';
+  const j=CN.indexOf(a[o]+a[(o+1)%3]+a[(o+2)%3]);if(j<0)return'A corner shows a colour combination that cannot exist.';cp.push(j);co.push(o)}
+ for(const t of EF){const a=t.map(i=>c[i]);let j=EN.indexOf(a[0]+a[1]),o=0;if(j<0){j=EN.indexOf(a[1]+a[0]);o=1}
+  if(j<0)return'An edge shows a colour combination that cannot exist.';ep.push(j);eo.push(o)}
+ if(new Set(cp).size<8||new Set(ep).size<12)return'The same corner or edge piece appears twice. Recheck the scan.';
+ if(co.reduce((a,b)=>a+b)%3)return'One corner is twisted, which is impossible. Check corner stickers.';
+ if(eo.reduce((a,b)=>a+b)%2)return'One edge is flipped, which is impossible. Check edge stickers.';
+ const par=p=>p.reduce((a,v,i)=>a+p.slice(i+1).filter(w=>w<v).length,0)%2;
+ return par(cp)!=par(ep)?'Two pieces are swapped, which is impossible. Check the colours.':null}
+
+/* ---------- navigation ---------- */
+function go(v){if(v=='prev'&&!G)return;if(v=='solve'&&!built)return;
+ ['home','scan','prev','solve'].forEach(x=>$(x).hidden=x!=v);
+ document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.v==v));
+ if(v=='scan'){cam();chips();say()}else stopCam();if(v=='prev'){pal();showPrev()}scrollTo(0,0)}
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>go(b.dataset.v));
+function demo(){G=[...Cube.random().asString()];go('prev')}
+function manual(){G=U.split('').flatMap(f=>Array(9).fill(f));go('prev')}
+
+/* ---------- camera scanning ---------- */
+const sc_=document.createElement('canvas');sc_.width=sc_.height=100;const sx=sc_.getContext('2d',{willReadFrequently:true});
+async function cam(){if(!stream){try{stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment',width:{ideal:1280},height:{ideal:720}}});$('vid').srcObject=stream;await $('vid').play();$('camerr').hidden=true}catch(e){$('camerr').hidden=false}}loop()}
+function stopCam(){clearTimeout(tm);stream&&stream.getTracks().forEach(t=>t.stop());stream=null}
+function sample(){const v=$('vid');if(!v.videoWidth)return null;const s=Math.min(v.videoWidth,v.videoHeight);
+ sx.drawImage(v,(v.videoWidth-s)/2,(v.videoHeight-s)/2,s,s,0,0,100,100);const o=[];
+ for(let r=0;r<3;r++)for(let c=0;c<3;c++){const d=sx.getImageData(26+20*c,26+20*r,8,8).data;let a=[0,0,0];
+  for(let i=0;i<d.length;i+=4){a[0]+=d[i];a[1]+=d[i+1];a[2]+=d[i+2]}const n=d.length/4;o.push(lab(a[0]/n,a[1]/n,a[2]/n))}return o}
+function draw(){const ov=$('ov'),W=ov.width=ov.clientWidth;ov.height=W;const g=ov.getContext('2d');g.lineWidth=3;
+ for(let r=0;r<3;r++)for(let c=0;c<3;c++){const x=W*(.2+.2*c),y=W*(.2+.2*r);g.strokeStyle='#fff';g.strokeRect(x,y,W*.2,W*.2);
+  if(cur){g.fillStyle=HEX[cls(cur[r*3+c])];g.beginPath();g.arc(x+W*.1,y+W*.1,W*.045,0,7);g.fill();g.strokeStyle='#000';g.lineWidth=2;g.stroke();g.lineWidth=3}}}
+function loop(){clearTimeout(tm);if($('scan').hidden||!stream)return;cur=sample();draw();tm=setTimeout(loop,100)}
+function chips(){$('chips').innerHTML=ORDER.split('').map((f,i)=>`<button class="${i==k?'on':''}" onclick="k=${i};chips();say()">${S[f]?'✓ ':''}${FN[f].split(' ')[0]}</button>`).join('')}
+function say(){const f=ORDER[k];$('ins').innerHTML=`<b>Face ${k+1}: ${FN[f]} (${NM[f]} centre)</b><br>${TXT[f]}`}
+function cap(){if(!cur)return;S[ORDER[k]]=cur.slice();const n=ORDER.split('').findIndex(f=>!S[f]);
+ if(n<0){refine();go('prev')}else{k=n;chips();say()}}
+addEventListener('keydown',e=>{if(!$('scan').hidden&&e.code=='Space'){e.preventDefault();cap()}if(!$('solve').hidden){if(e.key=='ArrowRight')step(1);if(e.key=='ArrowLeft')step(-1)}});
+
+/* ---------- 2D net + preview ---------- */
+function net(el,s,click){el.innerHTML='';U.split('').forEach((f,fi_)=>{for(let i=0;i<9;i++){const d=document.createElement('i'),[r,c]=OFF[f];
+ d.style.cssText=`grid-row:${r+(i/3|0)+1};grid-column:${c+i%3+1};background:${HEX[s[fi_*9+i]]}`;if(i==4)d.textContent=f;if(click)d.onclick=()=>click(fi_*9+i);el.appendChild(d)}})}
+function pal(){$('pal').innerHTML=U.split('').map(f=>`<button title="${NM[f]}" style="background:${HEX[f]}" class="${f==sel?'on':''}" onclick="sel='${f}';pal()"></button>`).join('')}
+function showPrev(){net($('net'),G,i=>{G[i]=sel;showPrev()});const e=validate(G.join(''));
+ $('msg').textContent=e?'⚠ '+e:'✓ Valid cube. Ready to solve.';$('msg').className=e?'bad':'ok';$('go').disabled=!!e;
+ $('rs').innerHTML=ORDER.split('').map((f,i)=>`<button onclick="k=${i};go('scan')">Rescan ${FN[f].split(' ')[0]}</button>`).join('')}
+
+/* ---------- 3D cube ---------- */
+let R3,sc,camr,root,cubies=[],arrowG;
+function fi(n,x,y,z){let f,r,c;
+ if(n.y==1){f=0;r=z+1;c=x+1}else if(n.x==1){f=1;r=1-y;c=1-z}else if(n.z==1){f=2;r=1-y;c=x+1}
+ else if(n.y==-1){f=3;r=1-z;c=x+1}else if(n.x==-1){f=4;r=1-y;c=z+1}else{f=5;r=1-y;c=1-x}return f*9+r*3+c}
+function init3d(){if(R3)return;R3=new THREE.WebGLRenderer({canvas:$('gl'),antialias:true,alpha:true});R3.setPixelRatio(Math.min(devicePixelRatio,2));
+ sc=new THREE.Scene();camr=new THREE.PerspectiveCamera(40,1,.1,100);camr.position.set(0,0,11);
+ sc.add(new THREE.AmbientLight(0xffffff,.95));const dl=new THREE.DirectionalLight(0xffffff,.45);dl.position.set(3,5,6);sc.add(dl);
+ root=new THREE.Group();root.rotation.set(.55,-.7,0);sc.add(root);
+ const rs=()=>{const w=$('gl').clientWidth;if(w)R3.setSize(w,w,false)};rs();addEventListener('resize',rs);
+ let lx,ly,dn=0;const g=$('gl');
+ g.onpointerdown=e=>{dn=1;lx=e.clientX;ly=e.clientY;g.setPointerCapture(e.pointerId)};g.onpointerup=()=>dn=0;
+ g.onpointermove=e=>{if(!dn)return;root.quaternion.premultiply(new THREE.Quaternion().setFromEuler(new THREE.Euler((e.clientY-ly)*.01,(e.clientX-lx)*.01,0)));lx=e.clientX;ly=e.clientY};
+ (function t(){R3.render(sc,camr);requestAnimationFrame(t)})()}
+function build(s){cubies.forEach(c=>root.remove(c));cubies=[];arrow();
+ const bg=new THREE.BoxGeometry(.96,.96,.96),pg=new THREE.PlaneGeometry(.84,.84),bm=new THREE.MeshLambertMaterial({color:0x14151b}),mt={};
+ for(let x=-1;x<2;x++)for(let y=-1;y<2;y++)for(let z=-1;z<2;z++){const c=new THREE.Group();c.position.set(x,y,z);c.add(new THREE.Mesh(bg,bm));
+  [[1,0,0],[-1,0,0],[0,1,0],[0,-1,0],[0,0,1],[0,0,-1]].forEach(a=>{if(a[0]*x+a[1]*y+a[2]*z!=1)return;
+   const n=new THREE.Vector3(...a),l=s[fi(n,x,y,z)];mt[l]=mt[l]||new THREE.MeshLambertMaterial({color:HEX[l]});
+   const m=new THREE.Mesh(pg,mt[l]);m.position.copy(n).multiplyScalar(.485);m.quaternion.setFromUnitVectors(new THREE.Vector3(0,0,1),n);m.userData={n,l};c.add(m)});
+  root.add(c);cubies.push(c)}}
+function read(){const s=Array(54);cubies.forEach(c=>{const p=c.position.clone().round();c.children.forEach(m=>{if(!m.userData.n)return;
+ const n=m.userData.n.clone().applyQuaternion(c.quaternion).round();s[fi(n,p.x,p.y,p.z)]=m.userData.l})});return s}
+const solved=s=>[0,1,2,3,4,5].every(f=>s.slice(f*9,f*9+9).every(x=>x==s[f*9]));
+function turn(m){return new Promise(res=>{const q=m[1]=='2'?2:m[1]=="'"?-1:1,[ax,sg]=AX[m[0]],ls=cubies.filter(c=>Math.round(c.position[ax])==sg),pv=new THREE.Group();
+ root.add(pv);root.updateMatrixWorld(true);ls.forEach(c=>pv.attach(c));
+ const to=-sg*q*Math.PI/2,t0=performance.now(),D=q==2?680:440;
+ (function fr(){const t=Math.min(1,(performance.now()-t0)/D),e=t<.5?2*t*t:1-(-2*t+2)**2/2;pv.rotation[ax]=to*e;
+  if(t<1)requestAnimationFrame(fr);else{root.updateMatrixWorld(true);ls.forEach(c=>{root.attach(c);c.position.round()});root.remove(pv);res()}})()})}
+function arrow(m){if(arrowG)root.remove(arrowG);arrowG=null;if(!m)return;
+ const [ax,sg]=AX[m[0]],n=new THREE.Vector3();n[ax]=sg;const g=new THREE.Group(),inn=new THREE.Group(),A=4.3,R=2.05;
+ const mat=new THREE.MeshBasicMaterial({color:0xffffff});inn.add(new THREE.Mesh(new THREE.TorusGeometry(R,.08,8,48,A),mat));
+ const cone=new THREE.Mesh(new THREE.ConeGeometry(.24,.5,16),mat);cone.position.set(R*Math.cos(A),R*Math.sin(A),0);cone.rotation.z=A;inn.add(cone);
+ if(m[1]!="'")inn.rotation.y=Math.PI;g.add(inn);
+ const pl=new THREE.Mesh(new THREE.PlaneGeometry(3.05,3.05),new THREE.MeshBasicMaterial({color:0x6d6dff,transparent:true,opacity:.35,side:2}));pl.position.z=-.2;g.add(pl);
+ g.quaternion.setFromUnitVectors(new THREE.Vector3(0,0,1),n);g.position.copy(n).multiplyScalar(1.75);root.add(g);arrowG=g}
+
+/* ---------- solver + step controls ---------- */
+function solveIt(){const s=G.join('');if(validate(s))return;built=1;go('solve');init3d();build(s);mv=[];idx=0;upd();
+ const b=$('busy');b.hidden=false;b.textContent='Preparing the Kociemba solver… the first solve takes a few seconds.';
+ setTimeout(()=>{try{Cube.initSolver();const r=Cube.fromString(s).solve();mv=r&&r.trim()?r.trim().split(/\s+/):[];b.hidden=true}
+  catch(e){b.textContent='The solver could not be loaded or the cube was rejected.'}upd()},60)}
+function upd(){const n=mv.length,m=mv[idx];$('badge').textContent=m?dm(m):(built&&n==0&&idx==0?'–':'✓');
+ $('desc').textContent=m?`${FN[m[0]]} face · ${m[1]=="'"?'counter-clockwise':m[1]=='2'?'half turn (180°)':'clockwise'}, as you look at that face`:(n?'No more moves':'');
+ $('prog').style.width=(n?idx/n*100:0)+'%';$('cnt').textContent=n?`Move ${Math.min(idx+1,n)} of ${n} · ${idx} done`:'';
+ $('list').innerHTML=mv.map((x,i)=>`<b class="${i<idx?'d':i==idx?'n':''}">${dm(x)}</b>`).join('');
+ const s=read();net($('net2'),s);arrow(m);
+ $('done').hidden=!(solved(s)&&(idx==n)&&built);
+ if(!$('done').hidden&&n==0)$('done').textContent=' This cube is already solved.'}
+async function step(d){if(bz||!mv.length)return;if(d>0&&idx<mv.length){bz=1;arrow();await turn(mv[idx]);idx++}else if(d<0&&idx>0){bz=1;arrow();await turn(inv(mv[idx-1]));idx--}else return;bz=0;upd()}
+function restart(){if(bz)return;pl=0;$('bp').textContent='▶ Play';idx=0;build(G.join(''));upd()}
+async function play(){if(pl){pl=0;$('bp').textContent='▶ Play';return}pl=1;$('bp').textContent='⏸ Pause';
+ while(pl&&idx<mv.length){await step(1);await new Promise(r=>setTimeout(r,250))}pl=0;$('bp').textContent='▶ Play'}
+go('home');
+</script></body></html>
